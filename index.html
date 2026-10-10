@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV & Carte Studio | Générateur en direct</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- html2pdf.js via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    :root {
+      /* Thème actif (par défaut : Bleu Professionnel) */
+      --theme-primary: #2563eb;
+      --theme-primary-hover: #1d4ed8;
+      --theme-primary-light: #eff6ff;
+      --theme-primary-border: #bfdbfe;
+      --theme-accent: #3b82f6;
+      --theme-gradient: linear-gradient(135deg, #2563eb, #1e40af);
+
+      /* Couleurs de base de l'interface */
+      --bg-app: #f1f5f9;
+      --bg-panel: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08), 0 2px 6px -2px rgba(0,0,0,0.04);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+      --shadow-sheet: 0 25px 50px -12px rgba(15, 23, 42, 0.18);
+    }
+
+    /* Thèmes de couleur */
+    [data-theme="blue"] {
+      --theme-primary: #2563eb;
+      --theme-primary-hover: #1d4ed8;
+      --theme-primary-light: #eff6ff;
+      --theme-primary-border: #bfdbfe;
+      --theme-accent: #3b82f6;
+      --theme-gradient: linear-gradient(135deg, #1d4ed8, #2563eb);
+    }
+    [data-theme="purple"] {
+      --theme-primary: #7c3aed;
+      --theme-primary-hover: #6d28d9;
+      --theme-primary-light: #f5f3ff;
+      --theme-primary-border: #ddd6fe;
+      --theme-accent: #8b5cf6;
+      --theme-gradient: linear-gradient(135deg, #6d28d9, #7c3aed);
+    }
+    [data-theme="dark"] {
+      --theme-primary: #0f172a;
+      --theme-primary-hover: #1e293b;
+      --theme-primary-light: #f8fafc;
+      --theme-primary-border: #cbd5e1;
+      --theme-accent: #334155;
+      --theme-gradient: linear-gradient(135deg, #0f172a, #334155);
+    }
+    [data-theme="emerald"] {
+      --theme-primary: #059669;
+      --theme-primary-hover: #047857;
+      --theme-primary-light: #ecfdf5;
+      --theme-primary-border: #a7f3d0;
+      --theme-accent: #10b981;
+      --theme-gradient: linear-gradient(135deg, #047857, #059669);
+    }
+    [data-theme="warm"] {
+      --theme-primary: #ea580c;
+      --theme-primary-hover: #c2410c;
+      --theme-primary-light: #fff7ed;
+      --theme-primary-border: #fed7aa;
+      --theme-accent: #f97316;
+      --theme-gradient: linear-gradient(135deg, #c2410c, #ea580c);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation & Entête */
+    header.app-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-content {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 0.85rem 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--theme-gradient);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+      transition: all 0.3s ease;
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Sélecteur de thèmes */
+    .controls-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .theme-picker {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #f8fafc;
+      padding: 0.35rem 0.65rem;
+      border-radius: 9999px;
+      border: 1px solid var(--border-color);
+    }
+    .theme-picker-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 0.2rem;
+    }
+    .theme-dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .theme-dot:hover {
+      transform: scale(1.15);
+    }
+    .theme-dot.active {
+      transform: scale(1.18);
+      border-color: #ffffff;
+      box-shadow: 0 0 0 2px var(--text-main);
+    }
+    .theme-blue { background: #2563eb; }
+    .theme-purple { background: #7c3aed; }
+    .theme-dark { background: #0f172a; }
+    .theme-emerald { background: #059669; }
+    .theme-warm { background: #ea580c; }
+
+    /* Format Switcher (CV vs Carte) */
+    .format-switcher {
+      display: flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+    .format-btn {
+      padding: 0.45rem 0.9rem;
+      border: none;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .format-btn.active {
+      background: #ffffff;
+      color: var(--theme-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Action buttons */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.15rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-family: inherit;
+    }
+    .btn-secondary {
+      background: #ffffff;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .btn-primary {
+      background: var(--theme-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+    .btn-primary:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    /* Layout principal */
+    .main-container {
+      max-width: 1700px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: minmax(420px, 480px) 1fr;
+      gap: 2rem;
+      flex: 1;
+      width: 100%;
+      align-items: start;
+    }
+
+    @media (max-width: 1100px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================================
+       COLONNE GAUCHE : FORMULAIRE DE SAISIE
+       ========================================= */
+    .form-panel {
+      background: var(--bg-panel);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-panel-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+    }
+    .form-panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--text-main);
+    }
+    .form-content {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+      max-height: calc(100vh - 170px);
+      overflow-y: auto;
+    }
+    .form-content::-webkit-scrollbar {
+      width: 6px;
+    }
+    .form-content::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    /* Sections du formulaire */
+    .form-section {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+    .form-section:focus-within {
+      border-color: var(--theme-primary-border);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .section-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-icon {
+      color: var(--theme-primary);
+    }
+
+    /* Champs */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .input-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .form-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.88rem;
+      font-family: inherit;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .form-control:focus {
+      border-color: var(--theme-primary);
+      box-shadow: 0 0 0 3px var(--theme-primary-light);
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Photo Upload */
+    .photo-upload-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .photo-preview-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 2px dashed #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .photo-preview-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-upload-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .btn-file {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+    }
+    .btn-file:hover {
+      background: #f1f5f9;
+    }
+    .file-input {
+      display: none;
+    }
+
+    /* Compétences (Tags) */
+    .skills-input-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.5rem;
+      min-height: 32px;
+    }
+    .tag-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--theme-primary-light);
+      color: var(--theme-primary);
+      border: 1px solid var(--theme-primary-border);
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      animation: fadeIn 0.2s ease;
+    }
+    .tag-remove {
+      cursor: pointer;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .tag-remove:hover {
+      opacity: 1;
+      color: #dc2626;
+    }
+
+    /* Cartes dynamiques (Expériences, Formations) */
+    .dynamic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .dynamic-item-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      animation: slideDown 0.2s ease;
+    }
+    .dynamic-item-card:hover {
+      border-color: #cbd5e1;
+    }
+    .card-delete-btn {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: none;
+      background: #fee2e2;
+      color: #ef4444;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      transition: all 0.2s ease;
+    }
+    .card-delete-btn:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+    .btn-add-item {
+      padding: 0.55rem;
+      border: 1.5px dashed var(--theme-primary);
+      color: var(--theme-primary);
+      background: var(--theme-primary-light);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+    .btn-add-item:hover {
+      background: var(--theme-primary);
+      color: #fff;
+    }
+
+    /* =========================================
+       COLONNE DROITE : PRÉVISUALISATION EN DIRECT
+       ========================================= */
+    .preview-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: sticky;
+      top: 5rem;
+    }
+    .preview-toolbar {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .preview-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+    }
+    .preview-viewport {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1.5rem;
+      background: #e2e8f0;
+      border-radius: var(--radius-lg);
+      min-height: 800px;
+      overflow: auto;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* =========================================
+       MODE CV (DOCUMENT A4 MODERNE)
+       ========================================= */
+    .cv-document {
+      width: 210mm;
+      min-height: 297mm;
+      background: #ffffff;
+      box-shadow: var(--shadow-sheet);
+      display: grid;
+      grid-template-columns: 72mm 1fr;
+      box-sizing: border-box;
+      color: #1e293b;
+      position: relative;
+      font-size: 9.5pt;
+      line-height: 1.45;
+      transform-origin: top center;
+      transition: all 0.3s ease;
+    }
+
+    /* Sidebar du CV (Gauche) */
+    .cv-sidebar {
+      background: #f8fafc;
+      border-right: 1px solid #e2e8f0;
+      padding: 24mm 16mm;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .cv-avatar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+    .cv-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: #e2e8f0;
+    }
+    .cv-sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cv-sidebar-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--theme-primary);
+      border-bottom: 2px solid var(--theme-primary);
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+    .cv-contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .cv-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 8.8pt;
+      color: #475569;
+      word-break: break-word;
+    }
+    .cv-contact-item i {
+      color: var(--theme-primary);
+      width: 14px;
+      margin-top: 2px;
+      font-size: 9pt;
+      flex-shrink: 0;
+    }
+    .cv-skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .cv-skill-badge {
+      background: var(--theme-primary-light);
+      color: var(--theme-primary);
+      font-weight: 600;
+      font-size: 8pt;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--theme-primary-border);
+    }
+    .cv-edu-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+    .cv-edu-degree {
+      font-weight: 700;
+      font-size: 9pt;
+      color: #0f172a;
+    }
+    .cv-edu-school {
+      font-size: 8.5pt;
+      color: #475569;
+    }
+    .cv-edu-year {
+      font-size: 8pt;
+      color: var(--theme-primary);
+      font-weight: 600;
+    }
+
+    /* Corps principal du CV (Droite) */
+    .cv-main {
+      padding: 24mm 20mm;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      background: #ffffff;
+    }
+    .cv-header-block {
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 16px;
+    }
+    .cv-fullname {
+      font-size: 24pt;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .cv-jobtitle {
+      font-size: 13pt;
+      font-weight: 600;
+      color: var(--theme-primary);
+      margin-top: 4px;
+      letter-spacing: -0.01em;
+    }
+    .cv-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cv-section-title {
+      font-size: 11.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cv-section-title::before {
+      content: "";
+      width: 4px;
+      height: 16px;
+      background: var(--theme-primary);
+      border-radius: 2px;
+    }
+    .cv-summary-text {
+      color: #475569;
+      font-size: 9.3pt;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+    .cv-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cv-timeline-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      position: relative;
+      padding-left: 12px;
+      border-left: 2px solid #e2e8f0;
+    }
+    .cv-timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -5.5px;
+      top: 5px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--theme-primary);
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 2px var(--theme-primary-border);
+    }
+    .cv-exp-role {
+      font-weight: 700;
+      font-size: 10pt;
+      color: #0f172a;
+    }
+    .cv-exp-company-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.8pt;
+      color: var(--theme-primary);
+      font-weight: 600;
+    }
+    .cv-exp-period {
+      color: #64748b;
+      font-weight: 500;
+      font-size: 8.2pt;
+    }
+    .cv-exp-desc {
+      font-size: 9pt;
+      color: #475569;
+      line-height: 1.5;
+      margin-top: 4px;
+      white-space: pre-line;
+    }
+
+    /* =========================================
+       MODE CARTE DE VISITE
+       ========================================= */
+    .card-container {
+      display: none;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 1rem 0;
+    }
+    .business-card {
+      width: 500px;
+      height: 290px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: var(--shadow-sheet);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.2rem 2.4rem;
+      border: 1px solid rgba(255,255,255,0.7);
+      transition: all 0.3s ease;
+    }
+    .business-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background: var(--theme-gradient);
+    }
+    .business-card::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: var(--theme-primary-light);
+      bottom: -100px;
+      right: -80px;
+      z-index: 0;
+      opacity: 0.6;
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+    .card-identity {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .card-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--theme-primary);
+    }
+    .card-avatar-sm {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: var(--shadow-md);
+      background: #e2e8f0;
+    }
+    .card-contacts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem 1rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 1rem;
+      border-top: 1px dashed #e2e8f0;
+    }
+    .card-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: #475569;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-contact-item i {
+      color: var(--theme-primary);
+      width: 14px;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .card-skills-preview {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .card-skill-pill {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 9999px;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 600;
+    }
+
+    /* Verso de la carte */
+    .card-back {
+      background: var(--theme-gradient);
+      color: #ffffff;
+    }
+    .card-back::before {
+      display: none;
+    }
+    .card-back::after {
+      background: rgba(255, 255, 255, 0.08);
+      width: 320px;
+      height: 320px;
+      bottom: -120px;
+      right: -100px;
+    }
+    .card-back-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      gap: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+    .card-back-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .card-back-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+    .card-back-quote {
+      font-size: 0.85rem;
+      opacity: 0.88;
+      max-width: 380px;
+      font-style: italic;
+    }
+
+    /* Active Mode Toggling */
+    body.mode-card .cv-document {
+      display: none;
+    }
+    body.mode-card .card-container {
+      display: flex;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Print / PDF generation styles */
+    @media print {
+      body {
+        background: #fff;
+      }
+      .app-header, .form-panel, .preview-toolbar {
+        display: none !important;
+      }
+      .main-container {
+        padding: 0;
+        margin: 0;
+        display: block;
+      }
+      .preview-viewport {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+      .cv-document {
+        box-shadow: none;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body data-theme="blue">
+
+  <!-- Entête de l'application -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </div>
+        <div>
+          <h1 class="brand-title">LiveCraft Studio</h1>
+          <p class="brand-subtitle">Générateur de CV & Carte de Visite en direct</p>
+        </div>
+      </div>
+
+      <div class="controls-wrapper">
+        <!-- Sélecteur de thème dynamique -->
+        <div class="theme-picker">
+          <span class="theme-picker-label"><i class="fa-solid fa-palette"></i> Thème :</span>
+          <div class="theme-dot theme-blue active" data-theme-name="blue" title="Bleu Professionnel"></div>
+          <div class="theme-dot theme-purple" data-theme-name="purple" title="Violet Créatif"></div>
+          <div class="theme-dot theme-emerald" data-theme-name="emerald" title="Émeraude Moderne"></div>
+          <div class="theme-dot theme-warm" data-theme-name="warm" title="Terracotta Chaleureux"></div>
+          <div class="theme-dot theme-dark" data-theme-name="dark" title="Sombre Minimaliste"></div>
+        </div>
+
+        <!-- Bascule de format (CV vs Carte de visite) -->
+        <div class="format-switcher">
+          <button class="format-btn active" id="btn-format-cv">
+            <i class="fa-regular fa-file-lines"></i> Format CV A4
+          </button>
+          <button class="format-btn" id="btn-format-card">
+            <i class="fa-regular fa-address-card"></i> Carte de visite
+          </button>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="btn-sample-data" title="Charger un profil d'exemple complet">
+          <i class="fa-solid fa-rotate-left"></i> Démo
+        </button>
+        <button class="btn btn-secondary" id="btn-clear-data" title="Vider tous les champs">
+          <i class="fa-solid fa-eraser"></i> Vider
+        </button>
+        <button class="btn btn-primary" id="btn-export-pdf">
+          <i class="fa-solid fa-file-arrow-down"></i> <span>Exporter en PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenu Principal -->
+  <main class="main-container">
+    <!-- COLONNE GAUCHE : FORMULAIRE -->
+    <aside class="form-panel">
+      <div class="form-panel-header">
+        <div class="form-panel-title">
+          <i class="fa-solid fa-pen-to-square" style="color: var(--theme-primary);"></i>
+          Éditeur de contenu
+        </div>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Mise à jour en temps réel</span>
+      </div>
+
+      <div class="form-content">
+        <!-- Photo et Identité -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-regular fa-user section-icon"></i>
+              <span>Profil & Coordonnées</span>
+            </div>
+          </div>
+
+          <div class="photo-upload-wrapper">
+            <div class="photo-preview-circle" id="form-photo-container">
+              <img id="form-avatar-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Avatar">
+            </div>
+            <div class="photo-upload-actions">
+              <label class="btn-file">
+                <i class="fa-solid fa-camera"></i> Changer la photo
+                <input type="file" id="input-photo" class="file-input" accept="image/*">
+              </label>
+              <span>Formats acceptés: JPG, PNG (Carré recommandé)</span>
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label" for="inp-firstname">Prénom</label>
+              <input type="text" id="inp-firstname" class="form-control" placeholder="ex: Sarah" value="Sarah">
+            </div>
+            <div class="input-group">
+              <label class="form-label" for="inp-lastname">Nom</label>
+              <input type="text" id="inp-lastname" class="form-control" placeholder="ex: Lambert" value="Lambert">
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="form-label" for="inp-title">Titre du poste / Spécialité</label>
+            <input type="text" id="inp-title" class="form-control" placeholder="ex: Designer UI/UX & Développeuse Front-End" value="Lead UI/UX Designer & Développeuse Web">
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label" for="inp-email">Email</label>
+              <input type="email" id="inp-email" class="form-control" placeholder="ex: sarah.lambert@example.com" value="sarah.lambert@designpro.fr">
+            </div>
+            <div class="input-group">
+              <label class="form-label" for="inp-phone">Téléphone</label>
+              <input type="tel" id="inp-phone" class="form-control" placeholder="ex: +33 6 12 34 56 78" value="+33 6 45 89 12 30">
+            </div>
+          </div>
+
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label" for="inp-location">Ville / Région</label>
+              <input type="text" id="inp-location" class="form-control" placeholder="ex: Paris, France" value="Paris & Télétravail">
+            </div>
+            <div class="input-group">
+              <label class="form-label" for="inp-website">Site web / Portfolio</label>
+              <input type="text" id="inp-website" class="form-control" placeholder="ex: sarah-portfolio.dev" value="sarahlambert.design">
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio / Présentation -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-align-left section-icon"></i>
+              <span>Résumé professionnel</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <textarea id="inp-summary" class="form-control" rows="3" placeholder="Présentez vos forces et votre valeur ajoutée...">Designer numérique avec plus de 6 ans d'expérience dans la création d'interfaces intuitives et l'architecture web moderne. Passionnée par l'accessibilité, les Design Systems scalables et la synergie entre design épuré et code performant.</textarea>
+          </div>
+        </div>
+
+        <!-- Compétences (Tags interactifs) -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-tags section-icon"></i>
+              <span>Compétences clés</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label">Ajouter une compétence (Appuyez sur Entrée)</label>
+            <div class="skills-input-container">
+              <input type="text" id="inp-skill" class="form-control" placeholder="ex: Figma, React, Design System...">
+              <button class="btn btn-secondary" id="btn-add-skill" type="button">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <div class="tags-container" id="skills-tags-container">
+              <!-- Rempli par JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Expériences Professionnelles Dynamiques -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-briefcase section-icon"></i>
+              <span>Expériences professionnelles</span>
+            </div>
+          </div>
+          <div class="dynamic-list" id="experiences-list">
+            <!-- Liste dynamique générée en JS -->
+          </div>
+          <button class="btn-add-item" id="btn-add-exp" type="button">
+            <i class="fa-solid fa-circle-plus"></i> Ajouter une expérience
+          </button>
+        </div>
+
+        <!-- Formations et Diplômes Dynamiques -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-graduation-cap section-icon"></i>
+              <span>Formations & Certifications</span>
+            </div>
+          </div>
+          <div class="dynamic-list" id="educations-list">
+            <!-- Liste dynamique générée en JS -->
+          </div>
+          <button class="btn-add-item" id="btn-add-edu" type="button">
+            <i class="fa-solid fa-circle-plus"></i> Ajouter une formation
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- COLONNE DROITE : PRÉVISUALISATION TEMPS RÉEL -->
+    <section class="preview-column">
+      <div class="preview-toolbar">
+        <div class="preview-info">
+          <div class="pulse-dot"></div>
+          <span>Aperçu instantané WYSIWYG</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;">
+          <i class="fa-solid fa-print"></i> Optimisé pour impression & export PDF A4 / Format Carte
+        </div>
+      </div>
+
+      <div class="preview-viewport">
+        <!-- APERÇU 1 : CV PROFESSIONNEL MODERNE (Format A4) -->
+        <article class="cv-document" id="cv-render-zone">
+          <!-- Barre latérale CV -->
+          <div class="cv-sidebar">
+            <div class="cv-avatar-container">
+              <img id="cv-preview-avatar" class="cv-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Avatar">
+            </div>
+
+            <!-- Coordonnées -->
+            <div class="cv-sidebar-section">
+              <h3 class="cv-sidebar-title">Contact</h3>
+              <ul class="cv-contact-list">
+                <li class="cv-contact-item" id="cv-item-email">
+                  <i class="fa-solid fa-envelope"></i>
+                  <span id="cv-text-email">sarah.lambert@designpro.fr</span>
+                </li>
+                <li class="cv-contact-item" id="cv-item-phone">
+                  <i class="fa-solid fa-phone"></i>
+                  <span id="cv-text-phone">+33 6 45 89 12 30</span>
+                </li>
+                <li class="cv-contact-item" id="cv-item-location">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span id="cv-text-location">Paris & Télétravail</span>
+                </li>
+                <li class="cv-contact-item" id="cv-item-website">
+                  <i class="fa-solid fa-globe"></i>
+                  <span id="cv-text-website">sarahlambert.design</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Compétences (tags visuels) -->
+            <div class="cv-sidebar-section">
+              <h3 class="cv-sidebar-title">Compétences</h3>
+              <div class="cv-skills-list" id="cv-preview-skills">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Corps principal CV -->
+          <div class="cv-main">
+            <!-- Nom et Poste -->
+            <div class="cv-header-block">
+              <h1 class="cv-fullname" id="cv-preview-name">Sarah Lambert</h1>
+              <p class="cv-jobtitle" id="cv-preview-title">Lead UI/UX Designer & Développeuse Web</p>
+            </div>
+
+            <!-- Profil / Bio -->
+            <div class="cv-section" id="cv-preview-section-summary">
+              <h2 class="cv-section-title">Profil Professionnel</h2>
+              <p class="cv-summary-text" id="cv-preview-summary">
+                Designer numérique avec plus de 6 ans d'expérience dans la création d'interfaces intuitives et l'architecture web moderne. Passionnée par l'accessibilité, les Design Systems scalables et la synergie entre design épuré et code performant.
+              </p>
+            </div>
+
+            <!-- Expériences -->
+            <div class="cv-section">
+              <h2 class="cv-section-title">Parcours & Expériences</h2>
+              <div class="cv-timeline" id="cv-preview-experiences">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+
+            <!-- Formations & Diplômes (Placé juste en bas du parcours et expériences) -->
+            <div class="cv-section" id="cv-section-educations">
+              <h2 class="cv-section-title">Formations & Diplômes</h2>
+              <div class="cv-timeline" id="cv-preview-educations">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- APERÇU 2 : CARTE DE VISITE (Recto & Verso) -->
+        <div class="card-container" id="card-render-zone">
+          <!-- RECTO -->
+          <div class="business-card" id="card-front">
+            <div class="card-top">
+              <div class="card-identity">
+                <div class="card-name" id="card-preview-name">Sarah Lambert</div>
+                <div class="card-title" id="card-preview-title">Lead UI/UX Designer</div>
+              </div>
+              <img id="card-preview-avatar" class="card-avatar-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Avatar">
+            </div>
+
+            <div class="card-skills-preview" id="card-preview-skills">
+              <!-- Rempli en JS -->
+            </div>
+
+            <div class="card-contacts">
+              <div class="card-contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span id="card-preview-email">sarah.lambert@designpro.fr</span>
+              </div>
+              <div class="card-contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <span id="card-preview-phone">+33 6 45 89 12 30</span>
+              </div>
+              <div class="card-contact-item">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="card-preview-location">Paris & Télétravail</span>
+              </div>
+              <div class="card-contact-item">
+                <i class="fa-solid fa-globe"></i>
+                <span id="card-preview-website">sarahlambert.design</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- VERSO -->
+          <div class="business-card card-back" id="card-back">
+            <div class="card-back-content">
+              <div class="card-back-logo">
+                <i class="fa-solid fa-compass-drafting"></i>
+              </div>
+              <div class="card-back-title" id="card-back-name">Sarah Lambert</div>
+              <p class="card-back-quote">« Créer des expériences mémorables et des interfaces fluides avec passion. »</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- JavaScript Interactif -->
+  <script>
+    // --- ÉTAT DE L'APPLICATION ---
+    const appState = {
+      theme: 'blue',
+      mode: 'cv', // 'cv' ou 'card'
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80',
+      skills: ['Figma', 'Design System', 'UI/UX Research', 'HTML5 / CSS3', 'JavaScript', 'React', 'Accessibilité (a11y)'],
+      experiences: [
+        {
+          id: 1,
+          role: 'Lead UI/UX Designer',
+          company: 'Studio Nova Web',
+          period: '2022 - Présent',
+          description: 'Direction artistique, création et maintenance du Design System d\'une suite SaaS internationale. Amélioration du taux de conversion de 32%.'
+        },
+        {
+          id: 2,
+          role: 'Designer d\'interfaces & Front-End',
+          company: 'Agence Digitale Horizon',
+          period: '2019 - 2022',
+          description: 'Conception de maquettes interactives haute-fidélité et prototypage front-end responsive pour plus de 25 clients e-commerce et corporate.'
+        }
+      ],
+      educations: [
+        {
+          id: 1,
+          degree: 'Master Direction Artistique & Design Interactif',
+          school: 'École Supérieure du Web',
+          year: '2019'
+        },
+        {
+          id: 2,
+          degree: 'Licence Métiers du Multimédia & Internet',
+          school: 'Université Paris Sorbonne',
+          year: '2017'
+        }
+      ]
+    };
+
+    // --- SÉLECTEURS DU DOM ---
+    const inpFirstName = document.getElementById('inp-firstname');
+    const inpLastName = document.getElementById('inp-lastname');
+    const inpTitle = document.getElementById('inp-title');
+    const inpEmail = document.getElementById('inp-email');
+    const inpPhone = document.getElementById('inp-phone');
+    const inpLocation = document.getElementById('inp-location');
+    const inpWebsite = document.getElementById('inp-website');
+    const inpSummary = document.getElementById('inp-summary');
+    const inpSkill = document.getElementById('inp-skill');
+    const btnAddSkill = document.getElementById('btn-add-skill');
+    const skillsTagsContainer = document.getElementById('skills-tags-container');
+    const experiencesList = document.getElementById('experiences-list');
+    const btnAddExp = document.getElementById('btn-add-exp');
+    const educationsList = document.getElementById('educations-list');
+    const btnAddEdu = document.getElementById('btn-add-edu');
+    const inputPhoto = document.getElementById('input-photo');
+    const formAvatarPreview = document.getElementById('form-avatar-preview');
+
+    // Rendu CV
+    const cvPreviewAvatar = document.getElementById('cv-preview-avatar');
+    const cvPreviewName = document.getElementById('cv-preview-name');
+    const cvPreviewTitle = document.getElementById('cv-preview-title');
+    const cvTextEmail = document.getElementById('cv-text-email');
+    const cvTextPhone = document.getElementById('cv-text-phone');
+    const cvTextLocation = document.getElementById('cv-text-location');
+    const cvTextWebsite = document.getElementById('cv-text-website');
+    const cvPreviewSummary = document.getElementById('cv-preview-summary');
+    const cvPreviewSkills = document.getElementById('cv-preview-skills');
+    const cvPreviewExperiences = document.getElementById('cv-preview-experiences');
+    const cvPreviewEducations = document.getElementById('cv-preview-educations');
+
+    // Rendu Carte
+    const cardPreviewName = document.getElementById('card-preview-name');
+    const cardPreviewTitle = document.getElementById('card-preview-title');
+    const cardPreviewEmail = document.getElementById('card-preview-email');
+    const cardPreviewPhone = document.getElementById('card-preview-phone');
+    const cardPreviewLocation = document.getElementById('card-preview-location');
+    const cardPreviewWebsite = document.getElementById('card-preview-website');
+    const cardPreviewAvatar = document.getElementById('card-preview-avatar');
+    const cardPreviewSkills = document.getElementById('card-preview-skills');
+    const cardBackName = document.getElementById('card-back-name');
+
+    // Contrôles globaux
+    const btnFormatCv = document.getElementById('btn-format-cv');
+    const btnFormatCard = document.getElementById('btn-format-card');
+    const btnExportPdf = document.getElementById('btn-export-pdf');
+    const btnSampleData = document.getElementById('btn-sample-data');
+    const btnClearData = document.getElementById('btn-clear-data');
+    const themeDots = document.querySelectorAll('.theme-dot');
+
+    // --- FONCTIONS DE MISE À JOUR DE LA PRÉVISUALISATION ---
+
+    function updateLivePreview() {
+      const fullName = `${inpFirstName.value.trim()} ${inpLastName.value.trim()}`.trim() || 'Prénom Nom';
+      const title = inpTitle.value.trim() || 'Titre du poste';
+      const email = inpEmail.value.trim() || 'email@exemple.com';
+      const phone = inpPhone.value.trim() || '+33 6 00 00 00 00';
+      const location = inpLocation.value.trim() || 'Localisation';
+      const website = inpWebsite.value.trim() || 'mon-portfolio.fr';
+      const summary = inpSummary.value.trim() || 'Votre résumé professionnel ici...';
+
+      // Mise à jour CV
+      cvPreviewName.textContent = fullName;
+      cvPreviewTitle.textContent = title;
+      cvTextEmail.textContent = email;
+      cvTextPhone.textContent = phone;
+      cvTextLocation.textContent = location;
+      cvTextWebsite.textContent = website;
+      cvPreviewSummary.textContent = summary;
+      cvPreviewAvatar.src = appState.avatar;
+
+      // Mise à jour Carte
+      cardPreviewName.textContent = fullName;
+      cardBackName.textContent = fullName;
+      cardPreviewTitle.textContent = title;
+      cardPreviewEmail.textContent = email;
+      cardPreviewPhone.textContent = phone;
+      cardPreviewLocation.textContent = location;
+      cardPreviewWebsite.textContent = website;
+      cardPreviewAvatar.src = appState.avatar;
+    }
+
+    // --- GESTION DES TAGS DE COMPÉTENCES ---
+
+    function renderSkills() {
+      // Tags dans le formulaire
+      skillsTagsContainer.innerHTML = '';
+      appState.skills.forEach((skill, index) => {
+        const tag = document.createElement('span');
+        tag.className = 'tag-item';
+        tag.innerHTML = `
+          ${escapeHtml(skill)}
+          <i class="fa-solid fa-xmark tag-remove" data-index="${index}" title="Supprimer"></i>
+        `;
+        skillsTagsContainer.appendChild(tag);
+      });
+
+      // Tags dans le CV
+      cvPreviewSkills.innerHTML = '';
+      appState.skills.forEach(skill => {
+        const badge = document.createElement('span');
+        badge.className = 'cv-skill-badge';
+        badge.textContent = skill;
+        cvPreviewSkills.appendChild(badge);
+      });
+
+      // Tags dans la Carte de visite (top 3)
+      cardPreviewSkills.innerHTML = '';
+      appState.skills.slice(0, 4).forEach(skill => {
+        const pill = document.createElement('span');
+        pill.className = 'card-skill-pill';
+        pill.textContent = skill;
+        cardPreviewSkills.appendChild(pill);
+      });
+    }
+
+    function addSkill() {
+      const val = inpSkill.value.trim();
+      if (val && !appState.skills.includes(val)) {
+        appState.skills.push(val);
+        inpSkill.value = '';
+        renderSkills();
+      }
+    }
+
+    inpSkill.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill();
+      }
+    });
+    btnAddSkill.addEventListener('click', addSkill);
+
+    skillsTagsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tag-remove')) {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        appState.skills.splice(idx, 1);
+        renderSkills();
+      }
+    });
+
+    // --- EXPÉRIENCES DYNAMIQUES ---
+
+    function renderExperiences() {
+      // Dans le formulaire de saisie
+      experiencesList.innerHTML = '';
+      appState.experiences.forEach((exp) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+          <button type="button" class="card-delete-btn" data-del-exp="${exp.id}" title="Supprimer cette expérience">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+          <div class="input-group">
+            <label class="form-label">Poste occupé</label>
+            <input type="text" class="form-control exp-role" data-id="${exp.id}" value="${escapeHtml(exp.role)}" placeholder="ex: Développeur Full Stack">
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label">Entreprise</label>
+              <input type="text" class="form-control exp-company" data-id="${exp.id}" value="${escapeHtml(exp.company)}" placeholder="ex: Octo Corp">
+            </div>
+            <div class="input-group">
+              <label class="form-label">Période</label>
+              <input type="text" class="form-control exp-period" data-id="${exp.id}" value="${escapeHtml(exp.period)}" placeholder="ex: 2021 - Présent">
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label">Description / Réalisations</label>
+            <textarea class="form-control exp-desc" rows="2" data-id="${exp.id}" placeholder="Détaillez vos missions...">${escapeHtml(exp.description)}</textarea>
+          </div>
+        `;
+        experiencesList.appendChild(card);
+      });
+
+      // Dans la prévisualisation du CV
+      cvPreviewExperiences.innerHTML = '';
+      appState.experiences.forEach((exp) => {
+        const item = document.createElement('div');
+        item.className = 'cv-timeline-item';
+        item.innerHTML = `
+          <div class="cv-exp-role">${escapeHtml(exp.role || 'Poste')}</div>
+          <div class="cv-exp-company-row">
+            <span>${escapeHtml(exp.company || 'Entreprise')}</span>
+            <span class="cv-exp-period">${escapeHtml(exp.period || '')}</span>
+          </div>
+          <p class="cv-exp-desc">${escapeHtml(exp.description || '')}</p>
+        `;
+        cvPreviewExperiences.appendChild(item);
+      });
+    }
+
+    // Écouteurs pour les champs d'expérience dynamiques
+    experiencesList.addEventListener('input', (e) => {
+      const id = parseInt(e.target.getAttribute('data-id'), 10);
+      const item = appState.experiences.find(x => x.id === id);
+      if (!item) return;
+
+      if (e.target.classList.contains('exp-role')) item.role = e.target.value;
+      if (e.target.classList.contains('exp-company')) item.company = e.target.value;
+      if (e.target.classList.contains('exp-period')) item.period = e.target.value;
+      if (e.target.classList.contains('exp-desc')) item.description = e.target.value;
+
+      renderExperiencesPreviewOnly();
+    });
+
+    experiencesList.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('[data-del-exp]');
+      if (delBtn) {
+        const id = parseInt(delBtn.getAttribute('data-del-exp'), 10);
+        appState.experiences = appState.experiences.filter(x => x.id !== id);
+        renderExperiences();
+      }
+    });
+
+    btnAddExp.addEventListener('click', () => {
+      const newId = Date.now();
+      appState.experiences.push({
+        id: newId,
+        role: 'Nouveau Poste',
+        company: 'Nom de l\'Entreprise',
+        period: '2023 - 2024',
+        description: 'Description des projets et réalisations clés.'
+      });
+      renderExperiences();
+    });
+
+    function renderExperiencesPreviewOnly() {
+      cvPreviewExperiences.innerHTML = '';
+      appState.experiences.forEach((exp) => {
+        const item = document.createElement('div');
+        item.className = 'cv-timeline-item';
+        item.innerHTML = `
+          <div class="cv-exp-role">${escapeHtml(exp.role || 'Poste')}</div>
+          <div class="cv-exp-company-row">
+            <span>${escapeHtml(exp.company || 'Entreprise')}</span>
+            <span class="cv-exp-period">${escapeHtml(exp.period || '')}</span>
+          </div>
+          <p class="cv-exp-desc">${escapeHtml(exp.description || '')}</p>
+        `;
+        cvPreviewExperiences.appendChild(item);
+      });
+    }
+
+    // --- FORMATIONS DYNAMIQUES ---
+
+    function renderEducations() {
+      // Dans le formulaire
+      educationsList.innerHTML = '';
+      appState.educations.forEach((edu) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+          <button type="button" class="card-delete-btn" data-del-edu="${edu.id}" title="Supprimer cette formation">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+          <div class="input-group">
+            <label class="form-label">Diplôme / Formation</label>
+            <input type="text" class="form-control edu-degree" data-id="${edu.id}" value="${escapeHtml(edu.degree)}" placeholder="ex: Master Informatique">
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label">Établissement</label>
+              <input type="text" class="form-control edu-school" data-id="${edu.id}" value="${escapeHtml(edu.school)}" placeholder="ex: Université Paris">
+            </div>
+            <div class="input-group">
+              <label class="form-label">Année</label>
+              <input type="text" class="form-control edu-year" data-id="${edu.id}" value="${escapeHtml(edu.year)}" placeholder="ex: 2021">
+            </div>
+          </div>
+        `;
+        educationsList.appendChild(card);
+      });
+
+      // Dans le CV
+      cvPreviewEducations.innerHTML = '';
+      appState.educations.forEach((edu) => {
+        const item = document.createElement('div');
+        item.className = 'cv-timeline-item';
+        item.innerHTML = `
+          <div class="cv-exp-role">${escapeHtml(edu.degree || 'Diplôme')}</div>
+          <div class="cv-exp-company-row">
+            <span>${escapeHtml(edu.school || 'Établissement')}</span>
+            <span class="cv-exp-period">${escapeHtml(edu.year || '')}</span>
+          </div>
+        `;
+        cvPreviewEducations.appendChild(item);
+      });
+    }
+
+    educationsList.addEventListener('input', (e) => {
+      const id = parseInt(e.target.getAttribute('data-id'), 10);
+      const item = appState.educations.find(x => x.id === id);
+      if (!item) return;
+
+      if (e.target.classList.contains('edu-degree')) item.degree = e.target.value;
+      if (e.target.classList.contains('edu-school')) item.school = e.target.value;
+      if (e.target.classList.contains('edu-year')) item.year = e.target.value;
+
+      renderEducationsPreviewOnly();
+    });
+
+    educationsList.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('[data-del-edu]');
+      if (delBtn) {
+        const id = parseInt(delBtn.getAttribute('data-del-edu'), 10);
+        appState.educations = appState.educations.filter(x => x.id !== id);
+        renderEducations();
+      }
+    });
+
+    btnAddEdu.addEventListener('click', () => {
+      const newId = Date.now();
+      appState.educations.push({
+        id: newId,
+        degree: 'Nouveau Diplôme / Certification',
+        school: 'École ou Organisme',
+        year: '2023'
+      });
+      renderEducations();
+    });
+
+    function renderEducationsPreviewOnly() {
+      cvPreviewEducations.innerHTML = '';
+      appState.educations.forEach((edu) => {
+        const item = document.createElement('div');
+        item.className = 'cv-timeline-item';
+        item.innerHTML = `
+          <div class="cv-exp-role">${escapeHtml(edu.degree || 'Diplôme')}</div>
+          <div class="cv-exp-company-row">
+            <span>${escapeHtml(edu.school || 'Établissement')}</span>
+            <span class="cv-exp-period">${escapeHtml(edu.year || '')}</span>
+          </div>
+        `;
+        cvPreviewEducations.appendChild(item);
+      });
+    }
+
+    // --- PHOTO / AVATAR UPLOAD ---
+    inputPhoto.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          appState.avatar = evt.target.result;
+          formAvatarPreview.src = appState.avatar;
+          cvPreviewAvatar.src = appState.avatar;
+          cardPreviewAvatar.src = appState.avatar;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // --- CHANGEMENT DE THÈME DE COULEUR ---
+    themeDots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        themeDots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+        const theme = dot.getAttribute('data-theme-name');
+        document.body.setAttribute('data-theme', theme);
+        appState.theme = theme;
+      });
+    });
+
+    // --- BASCULE DE MODE (CV vs CARTE DE VISITE) ---
+    btnFormatCv.addEventListener('click', () => {
+      btnFormatCv.classList.add('active');
+      btnFormatCard.classList.remove('active');
+      document.body.classList.remove('mode-card');
+      appState.mode = 'cv';
+    });
+
+    btnFormatCard.addEventListener('click', () => {
+      btnFormatCard.classList.add('active');
+      btnFormatCv.classList.remove('active');
+      document.body.classList.add('mode-card');
+      appState.mode = 'card';
+    });
+
+    // --- RÉINITIALISATION & EXEMPLES ---
+    btnSampleData.addEventListener('click', () => {
+      inpFirstName.value = "Sarah";
+      inpLastName.value = "Lambert";
+      inpTitle.value = "Lead UI/UX Designer & Développeuse Web";
+      inpEmail.value = "sarah.lambert@designpro.fr";
+      inpPhone.value = "+33 6 45 89 12 30";
+      inpLocation.value = "Paris & Télétravail";
+      inpWebsite.value = "sarahlambert.design";
+      inpSummary.value = "Designer numérique avec plus de 6 ans d'expérience dans la création d'interfaces intuitives et l'architecture web moderne. Passionnée par l'accessibilité, les Design Systems scalables et la synergie entre design épuré et code performant.";
+      appState.avatar = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80";
+      formAvatarPreview.src = appState.avatar;
+      appState.skills = ['Figma', 'Design System', 'UI/UX Research', 'HTML5 / CSS3', 'JavaScript', 'React', 'Accessibilité (a11y)'];
+      appState.experiences = [
+        {
+          id: 1,
+          role: 'Lead UI/UX Designer',
+          company: 'Studio Nova Web',
+          period: '2022 - Présent',
+          description: 'Direction artistique, création et maintenance du Design System d\'une suite SaaS internationale. Amélioration du taux de conversion de 32%.'
+        },
+        {
+          id: 2,
+          role: 'Designer d\'interfaces & Front-End',
+          company: 'Agence Digitale Horizon',
+          period: '2019 - 2022',
+          description: 'Conception de maquettes interactives haute-fidélité et prototypage front-end responsive pour plus de 25 clients e-commerce et corporate.'
+        }
+      ];
+      appState.educations = [
+        {
+          id: 1,
+          degree: 'Master Direction Artistique & Design Interactif',
+          school: 'École Supérieure du Web',
+          year: '2019'
+        },
+        {
+          id: 2,
+          degree: 'Licence Métiers du Multimédia & Internet',
+          school: 'Université Paris Sorbonne',
+          year: '2017'
+        }
+      ];
+      renderSkills();
+      renderExperiences();
+      renderEducations();
+      updateLivePreview();
+    });
+
+    btnClearData.addEventListener('click', () => {
+      if (confirm('Voulez-vous vider tous les champs pour recommencer de zéro ?')) {
+        inpFirstName.value = "";
+        inpLastName.value = "";
+        inpTitle.value = "";
+        inpEmail.value = "";
+        inpPhone.value = "";
+        inpLocation.value = "";
+        inpWebsite.value = "";
+        inpSummary.value = "";
+        appState.skills = [];
+        appState.experiences = [];
+        appState.educations = [];
+        renderSkills();
+        renderExperiences();
+        renderEducations();
+        updateLivePreview();
+      }
+    });
+
+    // --- ÉCOUTEURS DES CHAMPS FORMULAIRE DIRECTS ---
+    [inpFirstName, inpLastName, inpTitle, inpEmail, inpPhone, inpLocation, inpWebsite, inpSummary].forEach(el => {
+      el.addEventListener('input', updateLivePreview);
+    });
+
+    // --- EXPORT PDF AVEC html2pdf.js ---
+    btnExportPdf.addEventListener('click', () => {
+      const isCard = appState.mode === 'card';
+      const element = isCard ? document.getElementById('card-front') : document.getElementById('cv-render-zone');
+      const fullNameClean = `${inpFirstName.value.trim()}_${inpLastName.value.trim()}`.replace(/\s+/g, '_') || 'Mon_Document';
+      const filename = isCard ? `Carte_Visite_${fullNameClean}.pdf` : `CV_${fullNameClean}.pdf`;
+
+      const originalBtnHtml = btnExportPdf.innerHTML;
+      btnExportPdf.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Génération...`;
+      btnExportPdf.disabled = true;
+
+      const opt = {
+        margin: isCard ? [5, 5, 5, 5] : [0, 0, 0, 0],
+        filename: filename,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          letterRendering: true,
+          scrollY: 0
+        },
+        jsPDF: {
+          unit: 'mm',
+          format: isCard ? [90, 55] : 'a4',
+          orientation: isCard ? 'landscape' : 'portrait'
+        }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        btnExportPdf.innerHTML = originalBtnHtml;
+        btnExportPdf.disabled = false;
+      }).catch(err => {
+        console.error('Erreur lors de la génération PDF:', err);
+        alert('Une erreur est survenue lors de la génération du PDF. Consultez la console.');
+        btnExportPdf.innerHTML = originalBtnHtml;
+        btnExportPdf.disabled = false;
+      });
+    });
+
+    // Utilitaire d'échappement HTML pour prévenir les injections
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // --- INITIALISATION AU CHARGEMENT ---
+    renderSkills();
+    renderExperiences();
+    renderEducations();
+    updateLivePreview();
+  </script>
+</body>
+</html>

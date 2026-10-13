@@ -610,10 +610,10 @@
     .cv-sidebar {
       background: #f8fafc;
       border-right: 1px solid #e2e8f0;
-      padding: 24mm 16mm;
+      padding: 20mm 14mm;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
     .cv-avatar-container {
       display: flex;
@@ -679,6 +679,27 @@
       border-radius: 4px;
       border: 1px solid var(--theme-primary-border);
     }
+
+    /* Atouts clés dans la sidebar */
+    .cv-assets-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .cv-asset-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 8.3pt;
+      color: #334155;
+      font-weight: 500;
+    }
+    .cv-asset-item i {
+      color: var(--theme-primary);
+      font-size: 8pt;
+      flex-shrink: 0;
+    }
     .cv-edu-item {
       display: flex;
       flex-direction: column;
@@ -700,12 +721,55 @@
       font-weight: 600;
     }
 
-    /* Corps principal du CV (Droite) */
-    .cv-main {
-      padding: 24mm 20mm;
+    /* Langues dans la sidebar */
+    .cv-lang-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 7px;
+    }
+    .cv-lang-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8.5pt;
+    }
+    .cv-lang-name {
+      font-weight: 600;
+      color: #1e293b;
+    }
+    .cv-lang-level {
+      font-size: 7.6pt;
+      color: var(--theme-primary);
+      font-weight: 600;
+      background: var(--theme-primary-light);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--theme-primary-border);
+    }
+
+    /* Centres d'intérêt dans la sidebar */
+    .cv-interests-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .cv-interest-tag {
+      font-size: 7.8pt;
+      color: #334155;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Corps principal du CV (Droite) */
+    .cv-main {
+      padding: 20mm 18mm;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
       background: #ffffff;
     }
     .cv-header-block {
@@ -803,6 +867,87 @@
       line-height: 1.5;
       margin-top: 4px;
       white-space: pre-line;
+    }
+
+    /* Projets & Réalisations */
+    .cv-proj-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .cv-proj-name {
+      font-weight: 700;
+      font-size: 9.6pt;
+      color: #0f172a;
+    }
+    .cv-proj-link {
+      font-size: 8pt;
+      color: var(--theme-primary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .cv-proj-tech {
+      font-size: 8.5pt;
+      color: var(--theme-primary);
+      font-weight: 600;
+    }
+    .cv-proj-desc {
+      font-size: 8.8pt;
+      color: #475569;
+      line-height: 1.45;
+      margin-top: 3px;
+      white-space: pre-line;
+    }
+
+    /* Certifications */
+    .cv-cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cv-cert-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .cv-cert-icon {
+      color: var(--theme-primary);
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .cv-cert-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .cv-cert-name {
+      font-weight: 700;
+      font-size: 8.8pt;
+      color: #0f172a;
+      line-height: 1.25;
+    }
+    .cv-cert-sub {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      font-size: 8pt;
+      color: #64748b;
+    }
+    .cv-cert-issuer {
+      color: #475569;
+      font-weight: 500;
+    }
+    .cv-cert-year {
+      color: var(--theme-primary);
+      font-weight: 600;
     }
 
     /* =========================================
@@ -1178,6 +1323,28 @@
           </div>
         </div>
 
+        <!-- Mes atouts clés (Tags interactifs) -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-star section-icon"></i>
+              <span>Mes atouts clés</span>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label">Ajouter un atout clé (Appuyez sur Entrée)</label>
+            <div class="skills-input-container">
+              <input type="text" id="inp-asset" class="form-control" placeholder="ex: Leadership, Rigueur, Esprit d'analyse...">
+              <button class="btn btn-secondary" id="btn-add-asset" type="button">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <div class="tags-container" id="assets-tags-container">
+              <!-- Rempli par JavaScript -->
+            </div>
+          </div>
+        </div>
+
         <!-- Expériences Professionnelles Dynamiques -->
         <div class="form-section">
           <div class="section-header">
@@ -1194,12 +1361,28 @@
           </button>
         </div>
 
+        <!-- Projets Réalisés Dynamiques -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-diagram-project section-icon"></i>
+              <span>Projets & Réalisations</span>
+            </div>
+          </div>
+          <div class="dynamic-list" id="projects-list">
+            <!-- Liste dynamique générée en JS -->
+          </div>
+          <button class="btn-add-item" id="btn-add-project" type="button">
+            <i class="fa-solid fa-circle-plus"></i> Ajouter un projet
+          </button>
+        </div>
+
         <!-- Formations et Diplômes Dynamiques -->
         <div class="form-section">
           <div class="section-header">
             <div class="section-header-left">
               <i class="fa-solid fa-graduation-cap section-icon"></i>
-              <span>Formations & Certifications</span>
+              <span>Formations & Diplômes</span>
             </div>
           </div>
           <div class="dynamic-list" id="educations-list">
@@ -1208,6 +1391,63 @@
           <button class="btn-add-item" id="btn-add-edu" type="button">
             <i class="fa-solid fa-circle-plus"></i> Ajouter une formation
           </button>
+        </div>
+
+        <!-- Certifications Dynamiques -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-award section-icon"></i>
+              <span>Certifications</span>
+            </div>
+          </div>
+          <div class="dynamic-list" id="certifications-list">
+            <!-- Liste dynamique générée en JS -->
+          </div>
+          <button class="btn-add-item" id="btn-add-cert" type="button">
+            <i class="fa-solid fa-circle-plus"></i> Ajouter une certification
+          </button>
+        </div>
+
+        <!-- Langues & Centres d'intérêt -->
+        <div class="form-section">
+          <div class="section-header">
+            <div class="section-header-left">
+              <i class="fa-solid fa-earth-americas section-icon"></i>
+              <span>Langues & Centres d'intérêt</span>
+            </div>
+          </div>
+
+          <!-- Langues -->
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <label class="form-label" style="display: flex; align-items: center; gap: 0.4rem;">
+              <i class="fa-solid fa-language"></i> Langues
+            </label>
+            <div class="dynamic-list" id="languages-list">
+              <!-- Liste dynamique générée en JS -->
+            </div>
+            <button class="btn-add-item" id="btn-add-lang" type="button">
+              <i class="fa-solid fa-circle-plus"></i> Ajouter une langue
+            </button>
+          </div>
+
+          <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 0.35rem 0;">
+
+          <!-- Centres d'intérêt -->
+          <div class="input-group">
+            <label class="form-label" style="display: flex; align-items: center; gap: 0.4rem;">
+              <i class="fa-solid fa-heart"></i> Centres d'intérêt
+            </label>
+            <div class="skills-input-container">
+              <input type="text" id="inp-interest" class="form-control" placeholder="ex: Photographie, Échecs, Trail...">
+              <button class="btn btn-secondary" id="btn-add-interest" type="button">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <div class="tags-container" id="interests-tags-container">
+              <!-- Tags remplis par JavaScript -->
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -1257,9 +1497,33 @@
             </div>
 
             <!-- Compétences (tags visuels) -->
-            <div class="cv-sidebar-section">
+            <div class="cv-sidebar-section" id="cv-sidebar-skills">
               <h3 class="cv-sidebar-title">Compétences</h3>
               <div class="cv-skills-list" id="cv-preview-skills">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+
+            <!-- Mes atouts clés -->
+            <div class="cv-sidebar-section" id="cv-sidebar-assets">
+              <h3 class="cv-sidebar-title">Mes atouts clés</h3>
+              <ul class="cv-assets-list" id="cv-preview-assets">
+                <!-- Rempli en JS -->
+              </ul>
+            </div>
+
+            <!-- Langues -->
+            <div class="cv-sidebar-section" id="cv-sidebar-languages">
+              <h3 class="cv-sidebar-title">Langues</h3>
+              <ul class="cv-lang-list" id="cv-preview-languages">
+                <!-- Rempli en JS -->
+              </ul>
+            </div>
+
+            <!-- Centres d'intérêt -->
+            <div class="cv-sidebar-section" id="cv-sidebar-interests">
+              <h3 class="cv-sidebar-title">Centres d'intérêt</h3>
+              <div class="cv-interests-list" id="cv-preview-interests">
                 <!-- Rempli en JS -->
               </div>
             </div>
@@ -1282,17 +1546,33 @@
             </div>
 
             <!-- Expériences -->
-            <div class="cv-section">
+            <div class="cv-section" id="cv-section-experiences">
               <h2 class="cv-section-title">Parcours & Expériences</h2>
               <div class="cv-timeline" id="cv-preview-experiences">
                 <!-- Rempli en JS -->
               </div>
             </div>
 
-            <!-- Formations & Diplômes (Placé juste en bas du parcours et expériences) -->
+            <!-- Projets & Réalisations -->
+            <div class="cv-section" id="cv-section-projects">
+              <h2 class="cv-section-title">Projets & Réalisations</h2>
+              <div class="cv-timeline" id="cv-preview-projects">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+
+            <!-- Formations & Diplômes -->
             <div class="cv-section" id="cv-section-educations">
               <h2 class="cv-section-title">Formations & Diplômes</h2>
               <div class="cv-timeline" id="cv-preview-educations">
+                <!-- Rempli en JS -->
+              </div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="cv-section" id="cv-section-certifications">
+              <h2 class="cv-section-title">Certifications</h2>
+              <div class="cv-cert-grid" id="cv-preview-certifications">
                 <!-- Rempli en JS -->
               </div>
             </div>
@@ -1374,6 +1654,22 @@
           description: 'Conception de maquettes interactives haute-fidélité et prototypage front-end responsive pour plus de 25 clients e-commerce et corporate.'
         }
       ],
+      projects: [
+        {
+          id: 1,
+          title: 'Design System Aurora',
+          tech: 'Figma, React, Storybook',
+          link: 'aurora-ds.io',
+          description: 'Création d\'un système de composants UI accessible (WCAG 2.1 AAA) adopté par plus de 15 équipes produits et 2 000+ contributeurs.'
+        },
+        {
+          id: 2,
+          title: 'Application Mobile Éco-Mobilité',
+          tech: 'Flutter, Node.js, UI/UX',
+          link: 'ecomobile-app.fr',
+          description: 'Conception ergonomique et prototypage d\'une application de covoiturage urbain comptant plus de 50 000 utilisateurs actifs.'
+        }
+      ],
       educations: [
         {
           id: 1,
@@ -1387,6 +1683,44 @@
           school: 'Université Paris Sorbonne',
           year: '2017'
         }
+      ],
+      certifications: [
+        {
+          id: 1,
+          name: 'Google Professional UX Designer Certificate',
+          issuer: 'Google / Coursera',
+          year: '2023'
+        },
+        {
+          id: 2,
+          name: 'Certified Scrum Master (CSM)',
+          issuer: 'Scrum Alliance',
+          year: '2022'
+        }
+      ],
+      languages: [
+        {
+          id: 1,
+          name: 'Français',
+          level: 'Langue maternelle'
+        },
+        {
+          id: 2,
+          name: 'Anglais',
+          level: 'Courant / C1 (Professionnel)'
+        },
+        {
+          id: 3,
+          name: 'Espagnol',
+          level: 'Intermédiaire (B1)'
+        }
+      ],
+      interests: ['Design génératif', 'Photographie urbaine', 'Course à pied', 'Veille technologique & IA'],
+      assets: [
+        'Leadership & Vision produit',
+        'Rigueur méthodologique & Agilité',
+        'Sens du détail & Empathie utilisateur',
+        'Communication & Travail d\'équipe'
       ]
     };
 
@@ -1402,12 +1736,26 @@
     const inpSkill = document.getElementById('inp-skill');
     const btnAddSkill = document.getElementById('btn-add-skill');
     const skillsTagsContainer = document.getElementById('skills-tags-container');
+    const inpAsset = document.getElementById('inp-asset');
+    const btnAddAsset = document.getElementById('btn-add-asset');
+    const assetsTagsContainer = document.getElementById('assets-tags-container');
     const experiencesList = document.getElementById('experiences-list');
     const btnAddExp = document.getElementById('btn-add-exp');
     const educationsList = document.getElementById('educations-list');
     const btnAddEdu = document.getElementById('btn-add-edu');
     const inputPhoto = document.getElementById('input-photo');
     const formAvatarPreview = document.getElementById('form-avatar-preview');
+
+    // Nouveaux sélecteurs de formulaires
+    const projectsList = document.getElementById('projects-list');
+    const btnAddProject = document.getElementById('btn-add-project');
+    const certificationsList = document.getElementById('certifications-list');
+    const btnAddCert = document.getElementById('btn-add-cert');
+    const languagesList = document.getElementById('languages-list');
+    const btnAddLang = document.getElementById('btn-add-lang');
+    const inpInterest = document.getElementById('inp-interest');
+    const btnAddInterest = document.getElementById('btn-add-interest');
+    const interestsTagsContainer = document.getElementById('interests-tags-container');
 
     // Rendu CV
     const cvPreviewAvatar = document.getElementById('cv-preview-avatar');
@@ -1419,8 +1767,21 @@
     const cvTextWebsite = document.getElementById('cv-text-website');
     const cvPreviewSummary = document.getElementById('cv-preview-summary');
     const cvPreviewSkills = document.getElementById('cv-preview-skills');
+    const cvSidebarSkills = document.getElementById('cv-sidebar-skills');
+    const cvPreviewAssets = document.getElementById('cv-preview-assets');
+    const cvSidebarAssets = document.getElementById('cv-sidebar-assets');
     const cvPreviewExperiences = document.getElementById('cv-preview-experiences');
+    const cvSectionExperiences = document.getElementById('cv-section-experiences');
+    const cvPreviewProjects = document.getElementById('cv-preview-projects');
+    const cvSectionProjects = document.getElementById('cv-section-projects');
     const cvPreviewEducations = document.getElementById('cv-preview-educations');
+    const cvSectionEducations = document.getElementById('cv-section-educations');
+    const cvPreviewCertifications = document.getElementById('cv-preview-certifications');
+    const cvSectionCertifications = document.getElementById('cv-section-certifications');
+    const cvPreviewLanguages = document.getElementById('cv-preview-languages');
+    const cvSidebarLanguages = document.getElementById('cv-sidebar-languages');
+    const cvPreviewInterests = document.getElementById('cv-preview-interests');
+    const cvSidebarInterests = document.getElementById('cv-sidebar-interests');
 
     // Rendu Carte
     const cardPreviewName = document.getElementById('card-preview-name');
@@ -1490,12 +1851,17 @@
 
       // Tags dans le CV
       cvPreviewSkills.innerHTML = '';
-      appState.skills.forEach(skill => {
-        const badge = document.createElement('span');
-        badge.className = 'cv-skill-badge';
-        badge.textContent = skill;
-        cvPreviewSkills.appendChild(badge);
-      });
+      if (!appState.skills || appState.skills.length === 0) {
+        cvSidebarSkills.style.display = 'none';
+      } else {
+        cvSidebarSkills.style.display = '';
+        appState.skills.forEach(skill => {
+          const badge = document.createElement('span');
+          badge.className = 'cv-skill-badge';
+          badge.textContent = skill;
+          cvPreviewSkills.appendChild(badge);
+        });
+      }
 
       // Tags dans la Carte de visite (top 3)
       cardPreviewSkills.innerHTML = '';
@@ -1529,6 +1895,64 @@
         const idx = parseInt(e.target.getAttribute('data-index'), 10);
         appState.skills.splice(idx, 1);
         renderSkills();
+      }
+    });
+
+    // --- GESTION DES ATOUTS CLÉS ---
+
+    function renderAssets() {
+      // Tags dans le formulaire
+      assetsTagsContainer.innerHTML = '';
+      appState.assets.forEach((asset, index) => {
+        const tag = document.createElement('span');
+        tag.className = 'tag-item';
+        tag.innerHTML = `
+          ${escapeHtml(asset)}
+          <i class="fa-solid fa-xmark asset-remove" data-index="${index}" title="Supprimer"></i>
+        `;
+        assetsTagsContainer.appendChild(tag);
+      });
+
+      // Rendu dans le CV
+      cvPreviewAssets.innerHTML = '';
+      if (!appState.assets || appState.assets.length === 0) {
+        cvSidebarAssets.style.display = 'none';
+      } else {
+        cvSidebarAssets.style.display = '';
+        appState.assets.forEach(asset => {
+          const li = document.createElement('li');
+          li.className = 'cv-asset-item';
+          li.innerHTML = `
+            <i class="fa-solid fa-circle-check"></i>
+            <span>${escapeHtml(asset)}</span>
+          `;
+          cvPreviewAssets.appendChild(li);
+        });
+      }
+    }
+
+    function addAsset() {
+      const val = inpAsset.value.trim();
+      if (val && !appState.assets.includes(val)) {
+        appState.assets.push(val);
+        inpAsset.value = '';
+        renderAssets();
+      }
+    }
+
+    inpAsset.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addAsset();
+      }
+    });
+    btnAddAsset.addEventListener('click', addAsset);
+
+    assetsTagsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('asset-remove')) {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        appState.assets.splice(idx, 1);
+        renderAssets();
       }
     });
 
@@ -1620,6 +2044,11 @@
 
     function renderExperiencesPreviewOnly() {
       cvPreviewExperiences.innerHTML = '';
+      if (!appState.experiences || appState.experiences.length === 0) {
+        cvSectionExperiences.style.display = 'none';
+        return;
+      }
+      cvSectionExperiences.style.display = '';
       appState.experiences.forEach((exp) => {
         const item = document.createElement('div');
         item.className = 'cv-timeline-item';
@@ -1715,6 +2144,11 @@
 
     function renderEducationsPreviewOnly() {
       cvPreviewEducations.innerHTML = '';
+      if (!appState.educations || appState.educations.length === 0) {
+        cvSectionEducations.style.display = 'none';
+        return;
+      }
+      cvSectionEducations.style.display = '';
       appState.educations.forEach((edu) => {
         const item = document.createElement('div');
         item.className = 'cv-timeline-item';
@@ -1728,6 +2162,320 @@
         cvPreviewEducations.appendChild(item);
       });
     }
+
+    // --- PROJETS DYNAMIQUES ---
+
+    function renderProjects() {
+      // Dans le formulaire
+      projectsList.innerHTML = '';
+      appState.projects.forEach((proj) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+          <button type="button" class="card-delete-btn" data-del-proj="${proj.id}" title="Supprimer ce projet">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label">Titre du projet</label>
+              <input type="text" class="form-control proj-title" data-id="${proj.id}" value="${escapeHtml(proj.title)}" placeholder="ex: Application SaaS">
+            </div>
+            <div class="input-group">
+              <label class="form-label">Lien / Période</label>
+              <input type="text" class="form-control proj-link" data-id="${proj.id}" value="${escapeHtml(proj.link)}" placeholder="ex: monprojet.fr">
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label">Technologies / Rôle</label>
+            <input type="text" class="form-control proj-tech" data-id="${proj.id}" value="${escapeHtml(proj.tech)}" placeholder="ex: Figma, React, TypeScript">
+          </div>
+          <div class="input-group">
+            <label class="form-label">Description / Réalisations</label>
+            <textarea class="form-control proj-desc" rows="2" data-id="${proj.id}" placeholder="Présentez les objectifs et résultats clés...">${escapeHtml(proj.description)}</textarea>
+          </div>
+        `;
+        projectsList.appendChild(card);
+      });
+
+      renderProjectsPreviewOnly();
+    }
+
+    function renderProjectsPreviewOnly() {
+      cvPreviewProjects.innerHTML = '';
+      if (!appState.projects || appState.projects.length === 0) {
+        cvSectionProjects.style.display = 'none';
+        return;
+      }
+      cvSectionProjects.style.display = '';
+      appState.projects.forEach((proj) => {
+        const item = document.createElement('div');
+        item.className = 'cv-timeline-item';
+        item.innerHTML = `
+          <div class="cv-proj-title-row">
+            <span class="cv-proj-name">${escapeHtml(proj.title || 'Projet')}</span>
+            ${proj.link ? `<span class="cv-proj-link">${escapeHtml(proj.link)}</span>` : ''}
+          </div>
+          ${proj.tech ? `<div class="cv-proj-tech">${escapeHtml(proj.tech)}</div>` : ''}
+          ${proj.description ? `<p class="cv-proj-desc">${escapeHtml(proj.description)}</p>` : ''}
+        `;
+        cvPreviewProjects.appendChild(item);
+      });
+    }
+
+    projectsList.addEventListener('input', (e) => {
+      const id = parseInt(e.target.getAttribute('data-id'), 10);
+      const item = appState.projects.find(x => x.id === id);
+      if (!item) return;
+
+      if (e.target.classList.contains('proj-title')) item.title = e.target.value;
+      if (e.target.classList.contains('proj-link')) item.link = e.target.value;
+      if (e.target.classList.contains('proj-tech')) item.tech = e.target.value;
+      if (e.target.classList.contains('proj-desc')) item.description = e.target.value;
+
+      renderProjectsPreviewOnly();
+    });
+
+    projectsList.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('[data-del-proj]');
+      if (delBtn) {
+        const id = parseInt(delBtn.getAttribute('data-del-proj'), 10);
+        appState.projects = appState.projects.filter(x => x.id !== id);
+        renderProjects();
+      }
+    });
+
+    btnAddProject.addEventListener('click', () => {
+      const newId = Date.now();
+      appState.projects.push({
+        id: newId,
+        title: 'Nouveau Projet',
+        tech: 'Technologies clés',
+        link: 'lien-projet.fr',
+        description: 'Description des objectifs et résultats majeurs.'
+      });
+      renderProjects();
+    });
+
+    // --- CERTIFICATIONS DYNAMIQUES ---
+
+    function renderCertifications() {
+      // Dans le formulaire
+      certificationsList.innerHTML = '';
+      appState.certifications.forEach((cert) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+          <button type="button" class="card-delete-btn" data-del-cert="${cert.id}" title="Supprimer cette certification">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+          <div class="input-group">
+            <label class="form-label">Titre de la certification</label>
+            <input type="text" class="form-control cert-name" data-id="${cert.id}" value="${escapeHtml(cert.name)}" placeholder="ex: AWS Solutions Architect">
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label">Organisme / Émetteur</label>
+              <input type="text" class="form-control cert-issuer" data-id="${cert.id}" value="${escapeHtml(cert.issuer)}" placeholder="ex: Amazon Web Services">
+            </div>
+            <div class="input-group">
+              <label class="form-label">Année / Date</label>
+              <input type="text" class="form-control cert-year" data-id="${cert.id}" value="${escapeHtml(cert.year)}" placeholder="ex: 2023">
+            </div>
+          </div>
+        `;
+        certificationsList.appendChild(card);
+      });
+
+      renderCertificationsPreviewOnly();
+    }
+
+    function renderCertificationsPreviewOnly() {
+      cvPreviewCertifications.innerHTML = '';
+      if (!appState.certifications || appState.certifications.length === 0) {
+        cvSectionCertifications.style.display = 'none';
+        return;
+      }
+      cvSectionCertifications.style.display = '';
+      appState.certifications.forEach((cert) => {
+        const card = document.createElement('div');
+        card.className = 'cv-cert-card';
+        card.innerHTML = `
+          <i class="fa-solid fa-certificate cv-cert-icon"></i>
+          <div class="cv-cert-details">
+            <span class="cv-cert-name">${escapeHtml(cert.name || 'Certification')}</span>
+            <div class="cv-cert-sub">
+              <span class="cv-cert-issuer">${escapeHtml(cert.issuer || '')}</span>
+              <span class="cv-cert-year">${escapeHtml(cert.year || '')}</span>
+            </div>
+          </div>
+        `;
+        cvPreviewCertifications.appendChild(card);
+      });
+    }
+
+    certificationsList.addEventListener('input', (e) => {
+      const id = parseInt(e.target.getAttribute('data-id'), 10);
+      const item = appState.certifications.find(x => x.id === id);
+      if (!item) return;
+
+      if (e.target.classList.contains('cert-name')) item.name = e.target.value;
+      if (e.target.classList.contains('cert-issuer')) item.issuer = e.target.value;
+      if (e.target.classList.contains('cert-year')) item.year = e.target.value;
+
+      renderCertificationsPreviewOnly();
+    });
+
+    certificationsList.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('[data-del-cert]');
+      if (delBtn) {
+        const id = parseInt(delBtn.getAttribute('data-del-cert'), 10);
+        appState.certifications = appState.certifications.filter(x => x.id !== id);
+        renderCertifications();
+      }
+    });
+
+    btnAddCert.addEventListener('click', () => {
+      const newId = Date.now();
+      appState.certifications.push({
+        id: newId,
+        name: 'Nouvelle Certification',
+        issuer: 'Organisme émetteur',
+        year: '2024'
+      });
+      renderCertifications();
+    });
+
+    // --- LANGUES DYNAMIQUES ---
+
+    function renderLanguages() {
+      // Dans le formulaire
+      languagesList.innerHTML = '';
+      appState.languages.forEach((lang) => {
+        const card = document.createElement('div');
+        card.className = 'dynamic-item-card';
+        card.innerHTML = `
+          <button type="button" class="card-delete-btn" data-del-lang="${lang.id}" title="Supprimer cette langue">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+          <div class="input-row">
+            <div class="input-group">
+              <label class="form-label">Langue</label>
+              <input type="text" class="form-control lang-name" data-id="${lang.id}" value="${escapeHtml(lang.name)}" placeholder="ex: Français">
+            </div>
+            <div class="input-group">
+              <label class="form-label">Niveau</label>
+              <input type="text" class="form-control lang-level" data-id="${lang.id}" value="${escapeHtml(lang.level)}" placeholder="ex: Courant (C1)">
+            </div>
+          </div>
+        `;
+        languagesList.appendChild(card);
+      });
+
+      renderLanguagesPreviewOnly();
+    }
+
+    function renderLanguagesPreviewOnly() {
+      cvPreviewLanguages.innerHTML = '';
+      if (!appState.languages || appState.languages.length === 0) {
+        cvSidebarLanguages.style.display = 'none';
+        return;
+      }
+      cvSidebarLanguages.style.display = '';
+      appState.languages.forEach((lang) => {
+        const li = document.createElement('li');
+        li.className = 'cv-lang-item';
+        li.innerHTML = `
+          <span class="cv-lang-name">${escapeHtml(lang.name || '')}</span>
+          <span class="cv-lang-level">${escapeHtml(lang.level || '')}</span>
+        `;
+        cvPreviewLanguages.appendChild(li);
+      });
+    }
+
+    languagesList.addEventListener('input', (e) => {
+      const id = parseInt(e.target.getAttribute('data-id'), 10);
+      const item = appState.languages.find(x => x.id === id);
+      if (!item) return;
+
+      if (e.target.classList.contains('lang-name')) item.name = e.target.value;
+      if (e.target.classList.contains('lang-level')) item.level = e.target.value;
+
+      renderLanguagesPreviewOnly();
+    });
+
+    languagesList.addEventListener('click', (e) => {
+      const delBtn = e.target.closest('[data-del-lang]');
+      if (delBtn) {
+        const id = parseInt(delBtn.getAttribute('data-del-lang'), 10);
+        appState.languages = appState.languages.filter(x => x.id !== id);
+        renderLanguages();
+      }
+    });
+
+    btnAddLang.addEventListener('click', () => {
+      const newId = Date.now();
+      appState.languages.push({
+        id: newId,
+        name: 'Nouvelle Langue',
+        level: 'Intermédiaire (B2)'
+      });
+      renderLanguages();
+    });
+
+    // --- CENTRES D'INTÉRÊT (TAGS) ---
+
+    function renderInterests() {
+      // Tags dans le formulaire
+      interestsTagsContainer.innerHTML = '';
+      appState.interests.forEach((interest, index) => {
+        const tag = document.createElement('span');
+        tag.className = 'tag-item';
+        tag.innerHTML = `
+          ${escapeHtml(interest)}
+          <i class="fa-solid fa-xmark interest-remove" data-index="${index}" title="Supprimer"></i>
+        `;
+        interestsTagsContainer.appendChild(tag);
+      });
+
+      // Tags dans le CV
+      cvPreviewInterests.innerHTML = '';
+      if (!appState.interests || appState.interests.length === 0) {
+        cvSidebarInterests.style.display = 'none';
+        return;
+      }
+      cvSidebarInterests.style.display = '';
+      appState.interests.forEach(interest => {
+        const tag = document.createElement('span');
+        tag.className = 'cv-interest-tag';
+        tag.textContent = interest;
+        cvPreviewInterests.appendChild(tag);
+      });
+    }
+
+    function addInterest() {
+      const val = inpInterest.value.trim();
+      if (val && !appState.interests.includes(val)) {
+        appState.interests.push(val);
+        inpInterest.value = '';
+        renderInterests();
+      }
+    }
+
+    inpInterest.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addInterest();
+      }
+    });
+    btnAddInterest.addEventListener('click', addInterest);
+
+    interestsTagsContainer.addEventListener('click', (e) => {
+      if (e.target.classList.contains('interest-remove')) {
+        const idx = parseInt(e.target.getAttribute('data-index'), 10);
+        appState.interests.splice(idx, 1);
+        renderInterests();
+      }
+    });
 
     // --- PHOTO / AVATAR UPLOAD ---
     inputPhoto.addEventListener('change', (e) => {
@@ -1799,6 +2547,22 @@
           description: 'Conception de maquettes interactives haute-fidélité et prototypage front-end responsive pour plus de 25 clients e-commerce et corporate.'
         }
       ];
+      appState.projects = [
+        {
+          id: 1,
+          title: 'Design System Aurora',
+          tech: 'Figma, React, Storybook',
+          link: 'aurora-ds.io',
+          description: 'Création d\'un système de composants UI accessible (WCAG 2.1 AAA) adopté par plus de 15 équipes produits et 2 000+ contributeurs.'
+        },
+        {
+          id: 2,
+          title: 'Application Mobile Éco-Mobilité',
+          tech: 'Flutter, Node.js, UI/UX',
+          link: 'ecomobile-app.fr',
+          description: 'Conception ergonomique et prototypage d\'une application de covoiturage urbain comptant plus de 50 000 utilisateurs actifs.'
+        }
+      ];
       appState.educations = [
         {
           id: 1,
@@ -1813,9 +2577,55 @@
           year: '2017'
         }
       ];
+      appState.certifications = [
+        {
+          id: 1,
+          name: 'Google Professional UX Designer Certificate',
+          issuer: 'Google / Coursera',
+          year: '2023'
+        },
+        {
+          id: 2,
+          name: 'Certified Scrum Master (CSM)',
+          issuer: 'Scrum Alliance',
+          year: '2022'
+        }
+      ];
+      appState.languages = [
+        {
+          id: 1,
+          name: 'Français',
+          level: 'Langue maternelle'
+        },
+        {
+          id: 2,
+          name: 'Anglais',
+          level: 'Courant / C1 (Professionnel)'
+        },
+        {
+          id: 3,
+          name: 'Espagnol',
+          level: 'Intermédiaire (B1)'
+        }
+      ];
+      appState.interests = ['Design génératif', 'Photographie urbaine', 'Course à pied', 'Veille technologique & IA'];
+      inpInterest.value = '';
+      appState.assets = [
+        'Leadership & Vision produit',
+        'Rigueur méthodologique & Agilité',
+        'Sens du détail & Empathie utilisateur',
+        'Communication & Travail d\'équipe'
+      ];
+      inpAsset.value = '';
+
       renderSkills();
+      renderAssets();
       renderExperiences();
+      renderProjects();
       renderEducations();
+      renderCertifications();
+      renderLanguages();
+      renderInterests();
       updateLivePreview();
     });
 
@@ -1829,12 +2639,25 @@
         inpLocation.value = "";
         inpWebsite.value = "";
         inpSummary.value = "";
+        inpInterest.value = "";
+        inpAsset.value = "";
         appState.skills = [];
+        appState.assets = [];
         appState.experiences = [];
+        appState.projects = [];
         appState.educations = [];
+        appState.certifications = [];
+        appState.languages = [];
+        appState.interests = [];
+
         renderSkills();
+        renderAssets();
         renderExperiences();
+        renderProjects();
         renderEducations();
+        renderCertifications();
+        renderLanguages();
+        renderInterests();
         updateLivePreview();
       }
     });
@@ -1896,8 +2719,13 @@
 
     // --- INITIALISATION AU CHARGEMENT ---
     renderSkills();
+    renderAssets();
     renderExperiences();
+    renderProjects();
     renderEducations();
+    renderCertifications();
+    renderLanguages();
+    renderInterests();
     updateLivePreview();
   </script>
 </body>
